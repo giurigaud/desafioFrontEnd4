@@ -1,19 +1,20 @@
 import React from "react";
-import "./index.css";
 import { useForm } from "react-hook-form";
+import "./index.css";
 import LogoCubos from "../../Imagens/logocubos.svg";
 import VisorBarra from "../../Imagens/visorcombarra.svg";
 import Visor from "../../Imagens/visor.svg";
-import { LoginContainer } from "../../App";
 
-function Login(props) {
-  const { register, handleSubmit } = useForm();
-
+function Cadastro() {
   const [email, setEmail] = React.useState("");
   const [senha, setSenha] = React.useState("");
+  const [nome, setNome] = React.useState("");
   const [senhaInvisivel, setSenhaInvisivel] = React.useState(true);
 
-  const { login } = LoginContainer.useContainer();
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <div className="tela">
@@ -23,12 +24,20 @@ function Login(props) {
           alt="logo da cubos academy"
           className="logocubos"
         />
-        <form
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
-            login(data.email, data.senha);
-          })}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="nome">
+            <label className="nome">
+              Nome{" "}
+              <input
+                type="text"
+                name="nome"
+                ref={register}
+                value={nome}
+                className="nome"
+                onInput={(event) => setNome(event.target.value)}
+              ></input>
+            </label>
+          </div>
           <div className="email">
             <label className="email">
               E-mail{" "}
@@ -50,8 +59,8 @@ function Login(props) {
                 <input
                   type={senhaInvisivel ? "password" : "text"}
                   name="senha"
-                  className="senha"
                   ref={register}
+                  className="senha"
                   value={senha}
                   onInput={(event) => setSenha(event.target.value)}
                 />
@@ -71,20 +80,17 @@ function Login(props) {
             </label>
           </div>
 
-          <a className="esquecisenha" href="a">
-            Esqueci minha senha
-          </a>
-          <button className="button-entrar">Entrar</button>
+          <button className="button-entrar">Criar conta</button>
         </form>
       </div>
       <div className="entrar">
-        Não tem uma conta?{" "}
+        Já possui uma conta?{" "}
         <a className="link-entrar" href="a">
-          Cadastre-se
+          Acesse agora!
         </a>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Cadastro;
